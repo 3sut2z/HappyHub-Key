@@ -1,23 +1,17 @@
 import random
-import requests
 import string
 
 # Tạo key ngẫu nhiên
 def generate_random_key():
     prefix = "HappyHub_"
-    random_part = ''.join(random.choices(string.ascii_letters + string.digits, k=16))  # Tạo chuỗi ngẫu nhiên 16 ký tự
+    random_part = ''.join(random.choices(string.ascii_letters + string.digits, k=16))
     return f"{prefix}{random_part}"
 
+# Sinh key mới
 key = generate_random_key()
 
-# Gửi key lên GitHub
-url = "https://api.github.com/repos/username/repo/contents/HappyHubKey.txt"
-headers = {"Authorization": "Bearer YOUR_GITHUB_ACCESS_TOKEN"}
-data = {
-    "message": "Update key",  # Lời nhắn commit
-    "content": key.encode("utf-8").hex(),  # Mã hóa key
-    "branch": "main"  # Nhánh repository
-}
+# Cập nhật nội dung file HappyHubKey.txt
+with open("HappyHubKey.txt", "w") as file:
+    file.write(key)
 
-response = requests.put(url, headers=headers, json=data)
-print(response.status_code, response.json())
+print(f"New key generated and saved: {key}")
