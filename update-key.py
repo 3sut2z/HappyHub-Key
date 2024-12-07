@@ -1,17 +1,43 @@
 import random
 import string
+import requests
+from datetime import datetime
 
-# Tạo key ngẫu nhiên
-def generate_random_key():
+# Hàm tạo key ngẫu nhiên
+def generate_key():
     prefix = "HappyHub_"
-    random_part = ''.join(random.choices(string.ascii_letters + string.digits, k=16))
-    return f"{prefix}{random_part}"
+    random_string = ''.join(random.choices(string.ascii_letters + string.digits + "@#$%", k=16))
+    return prefix + random_string
 
-# Sinh key mới
-key = generate_random_key()
+# Hàm cập nhật file trên GitHub
+def update_key_on_github(key):
+    url = "https://api.github.com/repos/username/repo/contents/HappyHubKey.txt"
+    headers = {
+        "Authorization": "Bearer YOUR_GITHUB_ACCESS_TOKEN"
+    }
+    
+    # Lấy SHA của file hiện tại (nếu có)
+    response = requests.get(url, headers=headers)
+    if response.status_code == 200:
+        sha = response.json()["sha"]
+    else:
+        sha = None
+    
+    # Cập nhật file với key mới
+    data = {
+        "message": f"Update key for {datetime.now().strftime('%Y-%m-%d')}",
+        "content": key.encode("utf-8").hex(),
+        "branch": "main"
+    }
+    if sha:
+        data["sha"] = sha
 
-# Cập nhật nội dung file HappyHubKey.txt
-with open("HappyHubKey.txt", "w") as file:
-    file.write(key)
+    response = requests.put(url, headers=headers, json=data)
+    if response.status_code == 201 or response.status_code == 200:
+        print("Key updated successfully!")
+    else:
+        print("Failed to update key:", response.json())
 
-print(f"New key generated and saved: {key}")
+if __name__ == "__main__":
+    new_key = generate_key()
+    update_key_on_github(new_key)
