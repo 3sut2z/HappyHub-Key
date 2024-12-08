@@ -21,6 +21,6 @@ jobs:
 
     - name: Run Key Updater Script
       env:
-        YOUR_GITHUB_ACCESS_TOKEN: ${{ secrets.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 }}
+        YOUR_GITHUB_ACCESS_TOKEN: ${{ secrets.HAPPYHUBTOKEN }}
       run: |
         python script.py
