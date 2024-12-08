@@ -11,9 +11,9 @@ def generate_key():
 
 # Hàm cập nhật file trên GitHub
 def update_key_on_github(key):
-    url = "https://api.github.com/repos/username/repo/contents/HappyHubKey.txt"
+    url = "https://api.github.com/repos/3sut2z/HappyHub-Key/contents/HappyHubKey.txt"
     headers = {
-        "Authorization": "Bearer YOUR_GITHUB_ACCESS_TOKEN"
+        "Authorization": f"Bearer {os.getenv('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')}"
     }
     
     # Lấy SHA của file hiện tại (nếu có)
