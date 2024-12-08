@@ -5,9 +5,12 @@ from datetime import datetime
 
 # Hàm tạo key ngẫu nhiên
 def generate_key():
-    prefix = "HappyHub_"
-    random_string = ''.join(random.choices(string.ascii_letters + string.digits + "@#$%", k=16))
-    return prefix + random_string
+    # Tạo chuỗi ngẫu nhiên
+    random_string = ''.join(random.choices(string.ascii_letters + string.digits + "@$#&", k=16))
+
+    # Kết hợp chuỗi cố định và chuỗi ngẫu nhiên
+    key = f"HappyHub_{random_string}"
+    return key
 
 # Hàm cập nhật file trên GitHub
 def update_key_on_github(key):
@@ -40,4 +43,4 @@ def update_key_on_github(key):
 
 if __name__ == "__main__":
     new_key = generate_key()
-    update_key_on_github(new_key)
+    print("Generated Key:", new_key)
